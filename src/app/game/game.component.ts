@@ -19,6 +19,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { GameInfoComponent } from '../game-info/game-info.component';
+import { GameService } from '../../firebase-services/game.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-game',
@@ -43,16 +46,20 @@ export class GameComponent implements OnInit {
   currentCard: string = '';
   game: Game;
 
-  constructor(@Inject(Game) game: Game, public dialog: MatDialog) {
+  constructor(@Inject(Game) game: Game, public dialog: MatDialog, private gameService: GameService, private route: ActivatedRoute) {
     this.game = game;
     this.newGame();
+    this.route.params.subscribe( (params) => {
+      console.log(params['id'])
+    })
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.gameService.addNewGame(this.game.toJson());
+  }
 
   newGame() {
     this.game = new Game();
-    console.log(this.game);
   }
 
   takeCard() {
