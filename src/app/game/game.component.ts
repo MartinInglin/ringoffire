@@ -46,20 +46,11 @@ export class GameComponent implements OnInit {
   currentCard: string = '';
   game: Game;
 
-  constructor(@Inject(Game) game: Game, public dialog: MatDialog, private gameService: GameService, private route: ActivatedRoute) {
+  constructor(@Inject(Game) game: Game, public dialog: MatDialog) {
     this.game = game;
-    this.newGame();
-    this.route.params.subscribe( (params) => {
-      console.log(params['id'])
-    })
   }
 
   ngOnInit(): void {
-    this.gameService.addNewGame(this.game.toJson());
-  }
-
-  newGame() {
-    this.game = new Game();
   }
 
   takeCard() {

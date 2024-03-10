@@ -49,10 +49,9 @@ export class GameService {
     return doc(collection(this.firestore, 'games'), docId);
   }
 
-  async addNewGame(game: GameJson) {
-    const docRef = await addDoc(collection(this.firestore, 'games'), {
-      game: game,
-    });
-    console.log('Document written with ID: ', docRef);
+  async addNewGame(game: GameJson): Promise<string> {
+    const docRef = await addDoc(collection(this.firestore, 'games'), game);
+    return docRef.id;
   }
+  
 }
