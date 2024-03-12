@@ -6,14 +6,20 @@ import {
   doc,
   onSnapshot,
   addDoc,
+  docData,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Game } from '../models/game';
 
 interface GameJson {
   players: string[];
   stack: string[];
   playedCards: string[];
   currentPlayer: number;
+  pickCardAnimation: boolean;
+  currentCard: string;
 }
 
 @Injectable({
@@ -22,24 +28,9 @@ interface GameJson {
 export class GameService {
   firestore: Firestore = inject(Firestore);
 
-  unsubGames;
-  unsubGame;
+  constructor(private route: ActivatedRoute) {}
 
-  constructor() {
-    this.unsubGames = onSnapshot(this.getGamesRef(), (games) => {
-      games.forEach((game) => {
-        console.log('Current data: ', game.id);
-      });
-    });
-    this.unsubGame = onSnapshot(this.getGameRef('asdf'), (game) => {
-      console.log('Current data: ', game);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubGames();
-    this.unsubGame();
-  }
+  ngOnDestroy(): void {}
 
   getGamesRef() {
     return collection(this.firestore, 'games');
@@ -53,5 +44,21 @@ export class GameService {
     const docRef = await addDoc(collection(this.firestore, 'games'), game);
     return docRef.id;
   }
-  
+
+  getGame(gameId: string): Observable<GameJson> {
+    const gameRef = this.getGameRef(gameId);
+    return docData(gameRef) as Observable<GameJson>;
+  }
+
+  async saveGame(gameId: string, game: Game) {
+    const gameRef = this.getGameRef(gameId);
+    const gameObject = { ...game };
+    await updateDoc(gameRef, gameObject);
+  }
+
+  getGameId(gameId: string) {
+    this.route.params.subscribe((params) => {
+      gameId = params['id'];
+    });
+  }
 }
