@@ -55,11 +55,9 @@ export class GameComponent implements OnInit {
     private gameService: GameService
   ) {
     this.gameId = '';
+    this.getGameId();
     this.game = game;
-    this.route.params.subscribe((params) => {
-      this.gameId = params['id'];
-    });
-    this.gameService.getGame(this.gameId).subscribe((game) => {
+    this.gameService.getGame().subscribe((game) => {
       this.game.currentPlayer = game.currentPlayer;
       this.game.stack = game.stack;
       this.game.playedCards = game.playedCards;
@@ -71,6 +69,13 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  getGameId() {
+    this.route.params.subscribe((params) => {
+      this.gameId = params['id'];
+    });
+    this.gameService.gameId = this.gameId;
+  }
+
   takeCard() {
     if (!this.game.pickCardAnimation) {
       if (this.game.stack.length > 0) {
@@ -81,28 +86,33 @@ export class GameComponent implements OnInit {
     this.game.currentPlayer++;
     this.game.currentPlayer =
       this.game.currentPlayer % this.game.players.length;
-    this.gameService.saveGame(this.gameId, this.game);
+    this.gameService.saveGame(this.game);
     setTimeout(() => {
       this.game.playedCards.push(this.game.currentCard);
       this.game.pickCardAnimation = false;
-      this.gameService.saveGame(this.gameId, this.game);
+      this.gameService.saveGame(this.game);
     }, 1250);
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogAddPlayerComponent, {});
-
-    dialogRef.afterClosed().subscribe((name: string) => {
-      if (name && name.length > 0) {
-        this.game.players.push(name);
-        this.gameService.saveGame(this.gameId, this.game);
-      }
+  dialogNewPlayer(): void {
+    const dialogRef = this.dialog.open(ChangePlayerImageComponent, {
+      data: {
+        index: this.game.players.length,
+        game: this.game,
+        players: this.game.players,
+        newPlayer: true,
+      },
     });
   }
 
-  change(indexOfPlayer:number) {
+  change(indexOfPlayer: number) {
     const dialogRef = this.dialog.open(ChangePlayerImageComponent, {
-      data: { index: indexOfPlayer}
+      data: { 
+        index: indexOfPlayer,
+        game: this.game, 
+        players: this.game.players,
+        newPlayer: false,
+      },
     });
   }
 }

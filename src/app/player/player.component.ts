@@ -16,8 +16,4 @@ export class PlayerComponent {
   get adjustedIndex(): number {
     return this.i % 6;
   }
-
-  change() {
-    
-  }
 }

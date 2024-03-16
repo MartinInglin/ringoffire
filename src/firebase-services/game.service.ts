@@ -12,6 +12,7 @@ import {
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Game } from '../models/game';
+import { arrayRemove } from '@angular/fire/firestore';
 
 interface GameJson {
   players: string[];
@@ -27,8 +28,11 @@ interface GameJson {
 })
 export class GameService {
   firestore: Firestore = inject(Firestore);
+  gameId: string;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {
+    this.gameId = '';
+  }
 
   ngOnDestroy(): void {}
 
@@ -45,20 +49,27 @@ export class GameService {
     return docRef.id;
   }
 
-  getGame(gameId: string): Observable<GameJson> {
-    const gameRef = this.getGameRef(gameId);
+  getGame(): Observable<GameJson> {
+    const gameRef = this.getGameRef(this.gameId);
     return docData(gameRef) as Observable<GameJson>;
   }
 
-  async saveGame(gameId: string, game: Game) {
-    const gameRef = this.getGameRef(gameId);
+  async saveGame(game: GameJson) {
+    const gameRef = this.getGameRef(this.gameId);
     const gameObject = { ...game };
     await updateDoc(gameRef, gameObject);
   }
 
-  getGameId(gameId: string) {
-    this.route.params.subscribe((params) => {
-      gameId = params['id'];
+  async deletePlayer(indexOfPlayer: number) {
+    const gameRef = doc(this.firestore, 'games', this.gameId);
+    let gameData: GameJson;
+
+    const sub = this.getGame().subscribe((game) => {
+      gameData = game;
+      gameData.players.splice(indexOfPlayer, 1);
+      sub.unsubscribe();
+
+      this.saveGame(gameData);
     });
   }
 }
