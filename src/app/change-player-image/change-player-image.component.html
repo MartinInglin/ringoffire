@@ -1,0 +1,20 @@
+<div class="changes-container">
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Ex. Pizza" value="Name" />
+    </mat-form-field>
+  </form>
+
+  <div class="images-players">
+    <img
+      *ngFor="let image of imagesPlayer; let i = index"
+      [src]="image"
+      alt="Player Image {{ i }}"
+    />
+  </div>
+  <div class="button-edit-delete">
+    <button mat-button color="basic">Save</button>
+    <button mat-button color="warn" (click)="deletePlayer()">Delete Player</button>
+  </div>
+</div>

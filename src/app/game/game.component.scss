@@ -71,4 +71,23 @@
   bottom: 32px;
   left: 100px;
   right: 100px;
+
+  @media (max-width: 720px) {
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.scroll-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  overflow-x: auto;
+  display: flex;
+
+  app-player-mobile {
+    margin-left: 8px;
+  }
 }

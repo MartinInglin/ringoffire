@@ -17,4 +17,7 @@ export class PlayerComponent {
     return this.i % 6;
   }
 
+  change() {
+    
+  }
 }

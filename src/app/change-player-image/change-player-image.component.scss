@@ -1,0 +1,24 @@
+.changes-container {
+    height: fit-content;
+    padding: 12px;
+}
+
+.images-players {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 24px;
+
+  img {
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+    border: 1px solid rgba(0, 0, 0, 0.375);
+    cursor: pointer;
+  }
+}
+
+.button-edit-delete {
+    display: flex;
+    justify-content: flex-end;
+}

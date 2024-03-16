@@ -21,6 +21,8 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 import { GameInfoComponent } from '../game-info/game-info.component';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../../firebase-services/game.service';
+import { PlayerMobileComponent } from '../player-mobile/player-mobile.component';
+import { ChangePlayerImageComponent } from '../change-player-image/change-player-image.component';
 
 @Component({
   selector: 'app-game',
@@ -35,6 +37,8 @@ import { GameService } from '../../firebase-services/game.service';
     MatInputModule,
     FormsModule,
     GameInfoComponent,
+    PlayerMobileComponent,
+    ChangePlayerImageComponent,
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
@@ -93,6 +97,12 @@ export class GameComponent implements OnInit {
         this.game.players.push(name);
         this.gameService.saveGame(this.gameId, this.game);
       }
+    });
+  }
+
+  change(indexOfPlayer:number) {
+    const dialogRef = this.dialog.open(ChangePlayerImageComponent, {
+      data: { index: indexOfPlayer}
     });
   }
 }
