@@ -25,6 +25,8 @@ export class ChangePlayerImageComponent {
   playerName = '';
   game;
   newPlayer;
+  highlightedImages: boolean[];
+  indexOfImage;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -35,6 +37,8 @@ export class ChangePlayerImageComponent {
     this.game = this.data.game;
     this.playerName = this.data.players[this.indexOfPlayer] || '';
     this.newPlayer = this.data.newPlayer;
+    this.highlightedImages = new Array(this.imagesPlayer.length).fill(false);
+    this.indexOfImage = 0;
   }
 
   imagesPlayer = [
@@ -52,12 +56,21 @@ export class ChangePlayerImageComponent {
   }
 
   saveChanges() {
-    if (this.newPlayer) {
-      this.game.players.push(this.playerName);
-    } else {
-      this.game.players[this.indexOfPlayer] = this.playerName;
+    if (this.playerName.length > 0) {
+      if (this.newPlayer) {
+        this.game.players.push(this.playerName);
+      } else {
+        this.game.players[this.indexOfPlayer] = this.playerName;
+      }
+      this.gameService.saveGame(this.game);
+      this.dialogRef.close();
     }
-    this.gameService.saveGame(this.game);
-    this.dialogRef.close();
+  }
+
+  highlightImage(indexOfImage: number) {
+    this.indexOfImage = indexOfImage;
+    this.highlightedImages.fill(false);
+    this.highlightedImages[indexOfImage] =
+      !this.highlightedImages[indexOfImage];
   }
 }
