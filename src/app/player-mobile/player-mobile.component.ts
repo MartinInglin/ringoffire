@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
 })
 export class PlayerMobileComponent {
   @Input() name: string = '';
+  @Input() indexOfImage!:number;
   @Input() i!: number;
   @Input() playerActive: boolean = false;
 

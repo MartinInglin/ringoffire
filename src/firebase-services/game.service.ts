@@ -15,7 +15,7 @@ import { Game } from '../models/game';
 import { arrayRemove } from '@angular/fire/firestore';
 
 interface GameJson {
-  players: string[];
+  players: { name: string; imageNumber: number }[];
   stack: string[];
   playedCards: string[];
   currentPlayer: number;

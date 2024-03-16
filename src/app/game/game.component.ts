@@ -107,9 +107,9 @@ export class GameComponent implements OnInit {
 
   change(indexOfPlayer: number) {
     const dialogRef = this.dialog.open(ChangePlayerImageComponent, {
-      data: { 
+      data: {
         index: indexOfPlayer,
-        game: this.game, 
+        game: this.game,
         players: this.game.players,
         newPlayer: false,
       },

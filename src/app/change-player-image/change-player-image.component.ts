@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './change-player-image.component.html',
   styleUrl: './change-player-image.component.scss',
 })
-export class ChangePlayerImageComponent {
+export class ChangePlayerImageComponent implements OnInit {
   indexOfPlayer;
   playerName = '';
   game;
@@ -35,7 +35,7 @@ export class ChangePlayerImageComponent {
   ) {
     this.indexOfPlayer = this.data.index;
     this.game = this.data.game;
-    this.playerName = this.data.players[this.indexOfPlayer] || '';
+    this.playerName = this.data.players[this.indexOfPlayer]?.name || '';
     this.newPlayer = this.data.newPlayer;
     this.highlightedImages = new Array(this.imagesPlayer.length).fill(false);
     this.indexOfImage = 0;
@@ -50,6 +50,14 @@ export class ChangePlayerImageComponent {
     'assets/images/avatar-5.png',
   ];
 
+  ngOnInit(): void {
+    // Check if the selectedImageIndex is valid and within the range of imagesPlayer
+    if (this.indexOfImage !== undefined && this.indexOfImage >= 0 && this.indexOfImage < this.imagesPlayer.length) {
+      // Highlight the selected image
+      this.highlightedImages[this.indexOfImage] = true;
+    }
+  }
+
   deletePlayer() {
     this.gameService.deletePlayer(this.indexOfPlayer);
     this.dialogRef.close();
@@ -58,9 +66,11 @@ export class ChangePlayerImageComponent {
   saveChanges() {
     if (this.playerName.length > 0) {
       if (this.newPlayer) {
-        this.game.players.push(this.playerName);
+        this.game.players.push({ name: this.playerName, imageNumber: this.indexOfImage });
       } else {
-        this.game.players[this.indexOfPlayer] = this.playerName;
+        this.game.players[this.indexOfPlayer] = { name: this.playerName, imageNumber: this.indexOfImage };
+
+
       }
       this.gameService.saveGame(this.game);
       this.dialogRef.close();

@@ -10,10 +10,8 @@ import { Component, Input } from '@angular/core';
 export class PlayerComponent {
 
   @Input() name:string = '';
+  @Input() indexOfImage!:number;
   @Input() i!:number;
   @Input() playerActive:boolean = false;
 
-  get adjustedIndex(): number {
-    return this.i % 6;
-  }
 }
