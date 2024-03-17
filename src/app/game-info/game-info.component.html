@@ -1,4 +1,9 @@
-<mat-card>
-  <mat-card-title>{{ card ? title : "Please pick a card." }}</mat-card-title>
-  <mat-card-content>{{ card ? description : "Please click on the card stack to start the game."}}</mat-card-content>
+<mat-card class="game-info-container">
+  <mat-card-header>
+    <mat-card-title>{{ card ? title : "Please pick a card." }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>{{
+    card ? description : "Please click on the card stack to start the game."
+  }}</mat-card-content>
 </mat-card>

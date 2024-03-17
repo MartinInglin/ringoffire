@@ -1,0 +1,22 @@
+.game-over {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.727);
+
+  img {
+    max-width: 80vh;
+    min-width: 80px;
+  }
+}
+
+.restart-button {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 32px;
+    padding: 24px;
+}
+

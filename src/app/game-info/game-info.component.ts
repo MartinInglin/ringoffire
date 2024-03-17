@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { MaterialModule } from '../material/material.module';
 
 @Component({
   selector: 'app-game-info',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MaterialModule],
   templateUrl: './game-info.component.html',
   styleUrl: './game-info.component.scss',
 })

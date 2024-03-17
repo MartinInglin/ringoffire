@@ -30,13 +30,13 @@
 
 .played-card {
     right: 25px;
-  transform: scale(1) translateX(120px) translateY(-180px) rotate(30deg);
+  transform: scale(1) translateX(120px) translateY(-200px) rotate(30deg);
 }
 
 .pick-card {
   transition: all 100ms ease-in-out;
   animation: pick-card-animation 1.25s ease-in-out;
-  transform: scale(1) translateX(120px) translateY(-180px) rotate(30deg);
+  transform: scale(1) translateX(120px) translateY(-200px) rotate(30deg);
 }
 
 @keyframes pick-card-animation {
@@ -44,13 +44,13 @@
     transform: scale(1.1);
   }
   30% {
-    transform: scale(1.7);
+    transform: scale(1.7) translateX(20px);
   }
   50% {
-    transform: scale(1.7);
+    transform: scale(1.7) translateX(20px);
   }
   100% {
-    transform: scale(1) translateX(120px) translateY(-180px) rotate(30deg);
+    transform: scale(1) translateX(120px) translateY(-200px) rotate(30deg);
   }
 }
 
@@ -64,6 +64,10 @@
   position: absolute;
   right: 32px;
   bottom: 32px;
+
+  @media (max-width: 720px) {
+    bottom: 16px;
+  }
 }
 
 .pin-bottom {
@@ -79,7 +83,7 @@
   }
 }
 
-.scroll-container {
+.scroll-container-x {
   position: absolute;
   left: 0;
   right: 0;
@@ -90,4 +94,15 @@
   app-player-mobile {
     margin-left: 8px;
   }
+}
+
+.scroll-container-y {
+  max-height: 80vh;
+  position: absolute;
+  right: 0;
+  top: 32px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }

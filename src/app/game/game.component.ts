@@ -3,23 +3,10 @@ import { MaterialModule } from '../material/material.module';
 import { CommonModule } from '@angular/common';
 import { Game } from '../../models/game';
 import { PlayerComponent } from '../player/player.component';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
-} from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { GameInfoComponent } from '../game-info/game-info.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from '../../firebase-services/game.service';
 import { PlayerMobileComponent } from '../player-mobile/player-mobile.component';
 import { ChangePlayerImageComponent } from '../change-player-image/change-player-image.component';
@@ -31,10 +18,6 @@ import { ChangePlayerImageComponent } from '../change-player-image/change-player
     MaterialModule,
     CommonModule,
     PlayerComponent,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
     FormsModule,
     GameInfoComponent,
     PlayerMobileComponent,
@@ -52,7 +35,8 @@ export class GameComponent implements OnInit {
     @Inject(Game) game: Game,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-    private gameService: GameService
+    private gameService: GameService,
+    private router: Router
   ) {
     this.gameId = '';
     this.getGameId();
@@ -81,6 +65,8 @@ export class GameComponent implements OnInit {
       if (this.game.stack.length > 0) {
         this.game.currentCard = this.game.stack.pop() as string;
         this.game.pickCardAnimation = true;
+      } else {
+        this.router.navigate(['/game-over']);
       }
     }
     this.game.currentPlayer++;

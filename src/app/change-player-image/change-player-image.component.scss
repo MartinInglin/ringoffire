@@ -8,6 +8,7 @@
   flex-direction: row;
   gap: 8px;
   padding: 24px;
+  overflow-x: auto;
 
   img {
     border-radius: 50%;
@@ -25,6 +26,7 @@
 .button-edit-delete {
     display: flex;
     justify-content: flex-end;
+    margin-top: 12px;
 }
 
 .highlight {
